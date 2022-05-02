@@ -26,11 +26,14 @@ async Task<byte[]> GetFrame(bool small = false)
         return null;
     }
     var frame = small ? captureStream.QuerySmallFrame() : captureStream.QueryFrame();
+    Log.Debug("Frame captured");
     lastCapture = DateTime.Now;
     var tempFile = "temp.jpg";
     frame.Save(tempFile);
+    Log.Debug("Temporary file saved");
     var content = await System.IO.File.ReadAllBytesAsync(tempFile);
     System.IO.File.Delete(tempFile);
+    Log.Debug("Temporary file deleted");
     return content;
 }
 
